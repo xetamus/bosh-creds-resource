@@ -21,9 +21,13 @@ cat > "$payload" <&0
 
 pcf_opsman_admin_username=$(jq -r '.source.pcf_opsman_admin_username // ""' < $payload)
 pcf_opsman_admin_password=$(jq -r '.source.pcf_opsman_admin_password // ""' < $payload)
+pcf_opsman_client_id=$(jq -r '.source.pcf_opsman_client_id // ""' < $payload)
+pcf_opsman_client_secret=$(jq -r '.source.pcf_opsman_client_secret // ""' < $payload)
 opsman_url=$(jq -r '.source.opsman_url // ""' < $payload)
 
 CURL="om --target https://${opsman_url} -k \
+  -c $pcf_opsman_client_id \
+  -s $pcf_opsman_client_secret \
   --username $pcf_opsman_admin_username \
   --password $pcf_opsman_admin_password \
   curl"
